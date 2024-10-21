@@ -83,12 +83,15 @@ module "aks" {
   location = var.location
   dns_prefix = var.dns_prefix
   aks_vm_size = var.aks_vm_size
+  node_count  = var.node_count
   vnet_subnet_id = module.subnet.id
   log_analytics_workspace_id = var.log_analytics_workspace_id
 }
 
 # Set up AKS context
 module "aks_context" {
+  depends_on = [module.aks]
+
   source = "../../modules/k8s_cluster/aks_context"
   resource_group_name = module.resource_group.name
   cluster_name = module.aks.cluster_name
@@ -96,6 +99,8 @@ module "aks_context" {
 
 # Azure Container Registry
 module "acr" {
+  depends_on = [module.aks_context]
+
   source = "../../modules/k8s_cluster/acr"
   name = var.acr_name
   resource_group_name = module.resource_group.name
@@ -106,22 +111,30 @@ module "acr" {
 
 # NGINX Ingress
 module "nginx_ingress" {
+  depends_on = [module.aks_context]
+
   source = "../../modules/k8s_cluster/ingress"
   static_ip = var.static_ip
 }
 
 # Cert Manager
 module "cert_manager" {
+  depends_on = [module.aks_context]
+
   source = "../../modules/k8s_cluster/cert_manager"
 }
 
 # External DNS
 module "external_dns" {
+  depends_on = [module.aks_context]
+
   source = "../../modules/k8s_cluster/external_dns"
 }
 
 # Horizontal Pod Autoscaler
 module "hpa" {
+  depends_on = [module.aks_context]
+
   source = "../../modules/k8s_cluster/hpa"
   name = "hpa"
   namespace = "default"
@@ -132,6 +145,8 @@ module "hpa" {
 }
 
 module "redis_sentinel" {
+  depends_on = [module.aks_context]
+
   source = "../../modules/k8s_cluster/redis_sentinel"
 
   release_name     = var.redis_release_name

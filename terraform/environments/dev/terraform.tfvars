@@ -19,8 +19,9 @@ admin_password      = "Password1234!"
 # AKS Variables
 cluster_name        = "2bcloudAKSCluster"
 dns_prefix          = "2bcloudaks"
-aks_vm_size             = "Standard_DS2_v2"
-log_analytics_workspace_id = "your-log-analytics-workspace-id"
+aks_vm_size         = "Standard_DS2_v2"
+log_analytics_workspace_id = "2bcloud-log-analytics-workspace"
+node_count          =   3
 
 # ACR Variables
 acr_name            = "2bcloudacrregistry"

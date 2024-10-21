@@ -18,6 +18,11 @@ variable "dns_prefix" {
   type        = string
 }
 
+variable "node_count" {
+  description = "Amount Of Nodes"
+  type        = string
+}
+
 variable "aks_vm_size" {
   description = "Size of the AKS nodes"
   type        = string

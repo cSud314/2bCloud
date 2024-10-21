@@ -2,7 +2,7 @@ pipeline {
     agent any 
 
     environment {
-        ACR_NAME = 'your-acr-name' // Replace with your ACR name
+        ACR_NAME = '2bcloudacrregistry' 
         IMAGE_NAME = 'hello-world-node' // Docker image name
         ACR_CREDENTIALS_ID = 'acr-credentials' // Jenkins credentials ID
         ACR_URL = "${ACR_NAME}.azurecr.io" // ACR URL
@@ -12,7 +12,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout the code from your repository
-                git 'https://your-repo-url.git' // Replace with your repository URL
+                git 'https://github.com/cSud314/2bCloud.git' // Replace with your repository URL
             }
         }
         

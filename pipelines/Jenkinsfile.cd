@@ -2,15 +2,22 @@ pipeline {
     agent any 
 
     environment {
-        ACR_NAME = 'your-acr-name' // Replace with your ACR name
+        ACR_NAME = '2bcloudacrregistry' 
         IMAGE_NAME = 'hello-world-node' // Docker image name
         ACR_CREDENTIALS_ID = 'acr-credentials' // Jenkins credentials ID
-        RESOURCE_GROUP = 'your-resource-group' // Replace with your resource group
-        AKS_CLUSTER_NAME = 'your-aks-cluster' // Replace with your AKS cluster name
-        KUBECONFIG = "${env.WORKSPACE}/kubeconfig" // Path to kubeconfig
+        RESOURCE_GROUP = '2bcloud-resource-group' // Replace with your resource group
+        AKS_CLUSTER_NAME = '2bcloudAKSCluster' // Replace with your AKS cluster name
+      //  KUBECONFIG = "${env.WORKSPACE}/kubeconfig" // Path to kubeconfig
     }
 
     stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the code from your repository
+                git 'https://github.com/cSud314/2bCloud.git' // Replace with your repository URL
+            }
+        }
+
         stage('Get AKS Credentials') {
             steps {
                 script {
@@ -30,8 +37,8 @@ pipeline {
                 script {
                     // Deploy to AKS using kubectl
                     sh '''
-                        kubectl apply -f deployment.yaml
-                        kubectl rollout status deployment/your-deployment-name # Replace with your deployment name
+                        kubectl apply -f hello-world-app/k8s.yaml
+                        kubectl rollout status deployment/hello-world-deployment
                     '''
                 }
             }

@@ -75,6 +75,11 @@ variable "vm_size" {
   type        = string
 }
 
+variable "node_count" {
+  description = "Number of the AKS nodes"
+  type        = string
+}
+
 variable "log_analytics_workspace_id" {
   description = "Log Analytics Workspace ID"
   type        = string
