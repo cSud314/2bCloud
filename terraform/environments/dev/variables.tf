@@ -43,7 +43,7 @@ variable "vm_name" {
   type        = string
 }
 
-variable "vm_size" {
+variable "aks_vm_size" {
   description = "Size of the virtual machine"
   type        = string
 }
@@ -109,4 +109,40 @@ variable "acr_sku" {
 variable "service_principal_id" {
   description = "Service principal ID for ACR role assignment"
   type        = string
+}
+
+variable "min_replicas" {
+  description = "Min replicas for HPA"
+  type        = number
+  default     = "1"  # Default value can be customized
+} 
+
+variable "max_replicas" {
+  description = "Max replicas for HPA"
+  type        = number
+  default     = "3"  # Default value can be customized
+} 
+
+variable "target_cpu_utilization" {
+  description = "Target CPU utilization for HPA"
+  type        = number
+  default     = "70"  # Default value can be customized
+} 
+
+variable "redis_release_name" {
+  description = "Name of the Helm release for Redis"
+  type        = string
+  default     = "redis"  # Default value can be customized
+}
+
+variable "redis_chart_name" {
+  description = "Name of the Helm chart for Redis"
+  type        = string
+  default     = "bitnami/redis"  # Default value can be customized
+}
+
+variable "enable_redis_sentinel" {
+  description = "Enable Redis Sentinel"
+  type        = bool
+  default     = true  # Change to false if you don't want Sentinel enabled
 }

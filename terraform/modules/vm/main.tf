@@ -10,7 +10,7 @@ resource "azurerm_linux_virtual_machine" "this" {
 
   os_disk {
     caching        = "ReadWrite"
-    create_option = "FromImage"
+    storage_account_type = "Standard_LRS"
   }
 
   source_image_reference {
@@ -47,14 +47,4 @@ resource "azurerm_linux_virtual_machine" "this" {
               systemctl enable jenkins
             EOT
   )
-}
-
-variable "name" {}
-variable "resource_group_name" {}
-variable "location" {}
-variable "size" {}
-variable "admin_username" {}
-variable "admin_password" {}
-variable "network_interface_ids" {
-  type = list(string)
 }
