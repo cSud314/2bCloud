@@ -1,0 +1,57 @@
+pipeline {
+    agent any 
+
+    environment {
+        ACR_NAME = 'your-acr-name' // Replace with your ACR name
+        IMAGE_NAME = 'hello-world-node' // Docker image name
+        ACR_CREDENTIALS_ID = 'acr-credentials' // Jenkins credentials ID
+        ACR_URL = "${ACR_NAME}.azurecr.io" // ACR URL
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the code from your repository
+                git 'https://your-repo-url.git' // Replace with your repository URL
+            }
+        }
+        
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // Build the Docker image
+                    docker.build("${ACR_URL}/${IMAGE_NAME}")
+                }
+            }
+        }
+
+        stage('Login to ACR') {
+            steps {
+                script {
+                    // Login to Azure Container Registry
+                    docker.withRegistry("https://${ACR_URL}", ACR_CREDENTIALS_ID) {
+                        // This will automatically handle the login using the provided credentials
+                    }
+                }
+            }
+        }
+
+        stage('Push to ACR') {
+            steps {
+                script {
+                    // Push the Docker image to ACR
+                    docker.image("${ACR_URL}/${IMAGE_NAME}").push("latest")
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Docker image pushed to ACR successfully!'
+        }
+        failure {
+            echo 'Pipeline failed.'
+        }
+    }
+}
