@@ -23,7 +23,7 @@ variable "subnet_id" {
   type        = string
 }
 
-variable "public_ip_address_id" {
+variable "public_ip_address" {
   description = "ID of the public IP address"
   type        = string
 }
