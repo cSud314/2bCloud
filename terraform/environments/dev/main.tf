@@ -66,15 +66,15 @@ module "security_group" {
 }
 
 # Key Vault
-#module "key_vault" {
-#  depends_on = [module.subnet]
-#
-#  source = "../../modules/key_vault"
-#  name = var.key_vault_name
-#  location = var.location
-#  resource_group_name = "Guy-Candidate" #module.resource_group.name
-#  tenant_id = var.tenant_id
-#}
+module "key_vault" {
+  depends_on = [module.subnet]
+
+  source = "../../modules/key_vault"
+  name = var.key_vault_name
+  location = var.location
+  resource_group_name = "Guy-Candidate" #module.resource_group.name
+  tenant_id = var.tenant_id
+}
 
 # Virtual Machine
 module "virtual_machine" {
@@ -92,7 +92,7 @@ module "virtual_machine" {
 
 # AKS Cluster
 module "aks" {
-  depends_on = [module.virtual_machine]
+  depends_on = [module.key_vault]
 
   source = "../../modules/k8s_cluster/aks"
   cluster_name = var.cluster_name

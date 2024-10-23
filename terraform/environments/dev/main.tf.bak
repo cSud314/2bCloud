@@ -1,0 +1,11 @@
+
+# Key Vault
+#module "key_vault" {
+#  depends_on = [module.subnet]
+#
+#  source = "../../modules/key_vault"
+#  name = var.key_vault_name
+#  location = var.location
+#  resource_group_name = "Guy-Candidate" #module.resource_group.name
+#  tenant_id = var.tenant_id
+#}
